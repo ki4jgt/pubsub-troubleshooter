@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pubsub Troubleshooter</title>
+        <style>
+            h1 {text-align: center;}
+            p {text-indent: 50px;}
+        </style>
+    </head>
+    <body>
+        <div><h1 id = "topic">Topic</h1></div>
+        <div id = "log">
+        </div>
+    </body>
+    <footer>
+        <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script>
+        <script>
+            var topic = window.location.search
+            var topic = new URLSearchParams(topic).get("topic")
+            
+            const header = document.getElementById("topic")
+            const log = document.getElementById("log")
+            
+            header.textContent = topic
+            
+            var node
+            
+            async function setup(){
+                node = await Ipfs.create()
+                node.pubsub.subscribe(topic, message => {
+                    log.textContent = message
+                })
+            }setup()
+        </script>
+    </footer>
+</html>
